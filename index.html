@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Plant RNG Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-image: url('images/background.png');">
+    <div class="game-container">
+        <header>
+            <div class="stats">
+                <div id="money">Uang: <img src="images/money-icon.png" alt="Money Icon"> $<span>0</span></div>
+                <div id="pollution">Polusi: <img src="images/pollution-icon.png" alt="Pollution Icon"> <span>0</span></div>
+            </div>
+            <div class="navigation">
+                <button id="shopBtn">Toko</button>
+                <button id="minigameBtn">Mini Game</button>
+                <button id="upgradeBtn">Upgrade</button>
+                <button id="inventoryBtn" style="background-color: orange;">Inventory</button>
+            </div>
+        </header>
+
+        <div class="garden-container">
+            <div id="plantPots">
+                <!-- Pot akan di-generate melalui JavaScript -->
+            </div>
+        </div>
+
+        <div id="inventoryModal" class="modal">
+            <div class="modal-content">
+                <h2>Inventory</h2>
+                <div id="inventoryItems"></div>
+                <button class="close-modal" onclick="document.getElementById('inventoryModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <div id="plantInfoModal" class="modal">
+            <div class="modal-content">
+                <h2>Informasi Tanaman</h2>
+                <div id="plantInfo"></div>
+                <button class="close-modal" onclick="document.getElementById('plantInfoModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <div id="shopModal" class="modal">
+            <div class="modal-content shop-content">
+                <h2>Shop</h2>
+                <div class="shop-tabs">
+                    <button class="tab-button active" data-tab="gatcha-murah">Gatcha Murah</button>
+                    <button class="tab-button" data-tab="gatcha-sedang">Gatcha Sedang</button>
+                    <button class="tab-button" data-tab="gatcha-mahal">Gatcha Mahal</button>
+                    <button class="tab-button" data-tab="shop-items">Shop Items</button>
+                </div>
+                <div class="shop-tab-content">
+                    <div id="gatcha-murah" class="tab-content active">
+                        <h3>Gatcha Murah</h3>
+                        <img src="images/gatcha-murah.png" alt="Gatcha Murah" class="gatcha-image">
+                        <p>Peluang: Common, Uncommon, Rare</p>
+                        <button class="gatcha-btn" data-type="murah" data-count="1">Gatcha 1x - 100 Uang</button>
+                        <button class="gatcha-btn" data-type="murah" data-count="3">Gatcha 3x - 300 Uang</button>
+                    </div>
+                    <div id="gatcha-sedang" class="tab-content">
+                        <h3>Gatcha Sedang</h3>
+                        <img src="images/gatcha-sedang.png" alt="Gatcha Sedang" class="gatcha-image">
+                        <p>Peluang: Uncommon, Rare, Epic</p>
+                        <button class="gatcha-btn" data-type="sedang" data-count="1">Gatcha 1x - 1000 Uang</button>
+                        <button class="gatcha-btn" data-type="sedang" data-count="3">Gatcha 3x - 3000 Uang</button>
+                    </div>
+                    <div id="gatcha-mahal" class="tab-content">
+                        <h3>Gatcha Mahal</h3>
+                        <img src="images/gatcha-mahal.png" alt="Gatcha Mahal" class="gatcha-image">
+                        <p>Peluang: Rare, Epic, Legendary</p>
+                        <button class="gatcha-btn" data-type="mahal" data-count="1">Gatcha 1x - 5000 Uang</button>
+                        <button class="gatcha-btn" data-type="mahal" data-count="3">Gatcha 3x - 15000 Uang</button>
+                    </div>
+                    <div id="shop-items" class="tab-content">
+                        <h3>Beli Tanaman</h3>
+                        <div class="shop-items-container">
+                            <div class="shop-item-card">
+                                <img src="images/jati.png" alt="Pohon Jati">
+                                <h4>Pohon Jati</h4>
+                                <p>Harga: 200 Uang</p>
+                                <button class="buy-plant-btn" data-plant-id="1">Beli</button>
+                            </div>
+                            <div class="shop-item-card">
+                                <img src="images/rumput.png" alt="Rumput">
+                                <h4>Rumput</h4>
+                                <p>Harga: 50 Uang</p>
+                                <button class="buy-plant-btn" data-plant-id="2">Beli</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('shopModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <div id="upgradeModal" class="modal">
+            <div class="modal-content">
+                <h2>Upgrade</h2>
+                <div class="upgrade-section">
+                    <h3>Upgrade Pot</h3>
+                    <p>Jumlah Pot: <span id="potCount">1</span> / 10</p>
+                    <p>Biaya: <span id="potUpgradeCost">500</span> Uang</p>
+                    <button id="upgradePotBtn">Upgrade Pot</button>
+                </div>
+                <div class="upgrade-section">
+                    <h3>Money Multiplier</h3>
+                    <p>Multiplier: <span id="moneyMultiplier">1x</span> / 5x</p>
+                    <p>Biaya: <span id="moneyMultiplierCost">1000</span> Uang</p>
+                    <button id="upgradeMoneyMultiplierBtn">Upgrade Money Multiplier</button>
+                </div>
+                <div class="upgrade-section">
+                    <h3>Pollution Multiplier</h3>
+                    <p>Multiplier: <span id="pollutionMultiplier">1x</span> / 5x</p>
+                    <p>Biaya: <span id="pollutionMultiplierCost">5000</span> Uang</p>
+                    <button id="upgradePollutionMultiplierBtn">Upgrade Pollution Multiplier</button>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('upgradeModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+    </div>
+    <div id="notification" class="notification"></div>
+    <div id="selectPlantModal" class="modal">
+        <div class="modal-content">
+            <h2>Pilih Tanaman untuk Menerapkan Item</h2>
+            <div id="selectPlantItems"></div>
+            <button id="cancelSelectPlantBtn">Batal</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

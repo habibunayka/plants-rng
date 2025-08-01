@@ -1,31 +1,31 @@
 const dialogs = [
     {
         text: "Aku akhirnya kembali ke rumah masa kecilku setelah sekian lama. Rumah ini terasa sepi tanpa kehadiran kakek.",
-        background: "url('assets/images/dialogs/dialog1.webp')",
+        background: "url('./assets/images/dialogs/dialog1.webp')",
     },
     {
         text: "Aku yang anak yatim piatu, diasuh oleh kakek sejak kecil. Kakek adalah orang terbaik yang pernah ada di hidupku.",
-        background: "url('assets/images/dialogs/dialog2.webp')",
+        background: "url('./assets/images/dialogs/dialog2.webp')",
     },
     {
         text: "Tapi beberapa hari yang lalu, kakek mengidap penyakit paru-paru yang disebabkan oleh asap disekitar, dan akhirnya meninggal.",
-        background: "url('assets/images/dialogs/dialog3.webp')",
+        background: "url('./assets/images/dialogs/dialog3.webp')",
     },
     {
         text: "Dulu.. desa ini dipenuhi udara segar. Sekarang, udara terasa berat oleh polusi dari kota.",
-        background: "url('assets/images/dialogs/dialog4.webp')",
+        background: "url('./assets/images/dialogs/dialog4.webp')",
     },
     {
         text: "Lahan kakek yang kini tak terurus, hanya menyisakan kekosongan. Di sudutnya, aku melihat pot tua, seember air, dan sedikit pupuk.",
-        background: "url('assets/images/dialogs/dialog5.webp')",
+        background: "url('./assets/images/dialogs/dialog5.webp')",
     },
     {
         text: "Aku berlutut, menggenggam tanah kering. Aku masih ingat bagaimana kakek menanam dengan penuh kasih sayang.",
-        background: "url('assets/images/dialogs/dialog6.png')",
+        background: "url('./assets/images/dialogs/dialog6.png')",
     },
     {
         text: "Jika polusi telah merusak udara, aku akan mencoba memperbaikinya. Menanam kembali, dan mengembalikan apa yang hilang.",
-        background: "url('assets/images/dialogs/dialog7.webp')",
+        background: "url('./assets/images/dialogs/dialog7.webp')",
     },
 ];
 
@@ -50,6 +50,15 @@ this.backgroundMusic.addEventListener("canplaythrough", () => {
 });
 this.backgroundMusic.addEventListener("error", (e) => {
     console.error("Error loading audio file:", e);
+});
+
+window.addEventListener("click", (e) => {
+    console.log("Audio file is ready to play");
+    this.backgroundMusic.loop = true; // Atur agar musik berulang
+    this.backgroundMusic.volume = 0.5; // Atur volume sesuai kebutuhan
+    this.backgroundMusic.play().catch((error) => {
+        console.error("Error playing background music:", error);
+    });
 });
 
 function typeText(text, index = 0) {

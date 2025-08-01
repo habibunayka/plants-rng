@@ -175,8 +175,8 @@ class Game {
                 },
             ],
             playerData: {
-                money: 100000,
-                pollution: 10000,
+                money: 100,
+                pollution: 5000,
                 inventory: [
                     { name: "Pupuk", type: "item" },
                     { name: "Air", type: "item" },
@@ -197,9 +197,12 @@ class Game {
         this.plantSfx = new Audio("assets/audio/sound-effects/plant-sfx.mp3");
         this.clickSfx = new Audio("assets/audio/sound-effects/click-sfx.mp3");
         this.sellSfx = new Audio("assets/audio/sound-effects/sell-sfx.mp3");
+        this.closeSfx = new Audio("assets/audio/sound-effects/close-sfx.mp3");
         this.selectedPot = null;
         this.isTutorialOpen = true;
         this.notifications = [];
+
+        
 
         // Properti untuk minigame
         this.saveRiver = {
@@ -238,6 +241,7 @@ class Game {
             console.error("Kesalahan memuat berkas audio:", e);
         });
 
+        
         this.sortingGarbage = {
             score: 0,
             timeLeft: 30,
@@ -302,7 +306,16 @@ class Game {
         window.addEventListener("click", (e) => {
             if (e.target.classList.contains("modal")) {
                 this.closeAllModals();
+                
             }
+        });
+
+        window.addEventListener("click", (e) => {
+            this.backgroundMusic.loop = true; // Atur agar musik berulang
+            this.backgroundMusic.volume = 0.5; // Atur volume sesuai kebutuhan
+            this.backgroundMusic.play().catch((error) => {
+                console.error("Error playing background music:", error);
+            });
         });
 
         // Setup modal upgrade
@@ -417,6 +430,16 @@ class Game {
         document.addEventListener("click", (e) => {
             if (!e.target.closest(".pot") && !e.target.closest(".modal")) {
                 this.deselectCurrentPot();
+            }
+        });
+
+        document.addEventListener("click", (e) => {
+            if (e.target.closest(".close-modal")) {
+                this.closeSfx.loop = false; // Atur agar musik berulang
+                this.closeSfx.volume = 0.5; // Atur volume sesuai kebutuhan
+                this.closeSfx.play().catch((error) => {
+                    console.error("Error playing background music:", error);
+                });
             }
         });
 
@@ -873,7 +896,8 @@ class Game {
                     pollutionReduction *= 2;
                 }
 
-                this.gameData.playerData.pollution -= pollutionReduction;
+                // Mengurangi polusi dengan memastikan nilainya tidak di bawah 0
+                this.gameData.playerData.pollution = Math.max(this.gameData.playerData.pollution - pollutionReduction, 0);
 
                 plantStatus.lastUpdate = Date.now();
                 this.updateUI();
@@ -996,7 +1020,8 @@ class Game {
                     if (plantStatus.fertilizerStacks) {
                         pollutionReduction *= 2;
                     }
-                    this.gameData.playerData.pollution -= pollutionReduction;
+                    // Mengurangi polusi dengan memastikan nilainya tidak di bawah 0
+                    this.gameData.playerData.pollution = Math.max(this.gameData.playerData.pollution - pollutionReduction, 0);
 
                     plantStatus.lastUpdate = Date.now();
 
@@ -1165,7 +1190,7 @@ class Game {
     updatePollutionEffect() {
         if (this.isTutorialOpen == true) return;
 
-        const pollutionLevel = this.gameData.playerData.pollution / 10000;
+        const pollutionLevel = this.gameData.playerData.pollution / 5000;
         const overlay = document.getElementById("pollutionOverlay");
         overlay.style.opacity = pollutionLevel;
     }
@@ -1487,6 +1512,13 @@ class Game {
 
     closeAllModals() {
         const modals = document.querySelectorAll(".modal");
+
+        this.closeSfx.loop = false; // Atur agar musik berulang
+                this.closeSfx.volume = 0.5; // Atur volume sesuai kebutuhan
+                this.closeSfx.play().catch((error) => {
+                    console.error("Error playing background music:", error);
+                });
+        
         modals.forEach((modal) => {
             if (
                 modal.id === "saveRiverModal" ||
@@ -2060,13 +2092,13 @@ class Game {
         pots.forEach((p) => {
             if (skin === "blue") {
                 p.style.backgroundImage =
-                    "url('assets/images/pot-skins/blue-pot.png')";
+                    "url('./assets/images/pot-skins/blue-pot.png')";
             } else if (skin === "red") {
                 p.style.backgroundImage =
-                    "url('assets/images/pot-skins/red-pot.png')";
+                    "url('./assets/images/pot-skins/red-pot.png')";
             } else {
                 p.style.backgroundImage =
-                    "url('assets/images/pot-skins/default-pot.png')";
+                    "url('./assets/images/pot-skins/default-pot.png')";
             }
         });
 

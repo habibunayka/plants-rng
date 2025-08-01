@@ -1,6 +1,6 @@
 @font-face {
     font-family: "PressStart2P";
-    src: url("../fonts/PressStart2P-Regular.ttf") format("truetype");
+    src: url("../assets/fonts/PressStart2P-Regular.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
 }
@@ -53,7 +53,7 @@ body {
 }
 
 .stats {
-    background: url("../images/backgrounds/modal-background.jpg") repeat;
+    background: url("../assets/images/backgrounds/modal-background.jpg") repeat;
     padding: 15px 25px;
     border-radius: 5px;
     border: 2px solid #000;
@@ -91,7 +91,7 @@ body {
     transform: translateX(-50%);
     display: flex;
     gap: 15px;
-    background: url("../images/backgrounds/modal-background.jpg") repeat;
+    background: url("../assets/images/backgrounds/modal-background.jpg") repeat;
     padding: 15px 25px;
     border-radius: 10px;
     border: 2px solid #000;
@@ -192,13 +192,13 @@ body {
 }
 
 .pot.growing {
-    background-image: url("../images/plant-growing.png");
+    background-image: url("../assets/images/plant-growing.png");
     background-size: cover;
     background-position: center;
 }
 
 .pot.grown {
-    background-image: url("../images/plant-grown.png");
+    background-image: url("../assets/images/plant-grown.png");
     background-size: cover;
     background-position: center;
 }
@@ -234,7 +234,7 @@ body {
 
 .pollution-bar {
     width: 100%;
-    background: url("../images/backgrounds/modal-background.jpg") repeat;
+    background: url("../assets/images/backgrounds/modal-background.jpg") repeat;
     border-radius: 5px;
     overflow: hidden;
     margin-top: 5px;
@@ -326,7 +326,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: url("../images/backgrounds/modal-background.jpg") repeat;
+    background: url("../assets/images/backgrounds/modal-background.jpg") repeat;
     color: white;
     padding: 20px;
     width: 80%;
@@ -806,7 +806,7 @@ body {
     position: relative;
     width: 100%;
     height: 400px;
-    background: url("../images/backgrounds/river-background.webp") no-repeat
+    background: url("../assets/images/backgrounds/river-background.webp") no-repeat
         center center;
     background-size: cover;
     border: 2px solid #4caf50;
@@ -1309,7 +1309,7 @@ button {
     position: relative;
     width: 100%;
     height: 400px;
-    background: url("../images/backgrounds/sorting-background.webp") no-repeat
+    background: url("../assets/images/backgrounds/sorting-background.webp") no-repeat
         center center;
     background-size: cover;
     border: 2px solid #4caf50;
@@ -1382,7 +1382,7 @@ button {
 }
 
 .tutorial-content {
-    background: url("../images/backgrounds/modal-background.jpg") repeat;
+    background: url("../assets/images/backgrounds/modal-background.jpg") repeat;
     width: 80%;
     max-width: 890px;
     height: 750px;

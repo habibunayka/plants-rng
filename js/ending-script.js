@@ -1,11 +1,11 @@
 const dialogs = [
     {
-        text: "Aku yakin kakek akan bangga melihat usahaku. Lingkungan ini kini hidup kembali berkat kerja kerasku, Terimakasih kakek.",
-        background: "url('assets/images/ending-dialogs/dialog1.webp')",
+        text: "Aku yakin kakek akan bangga melihat usahaku. Lingkungan ini kini hidup kembali berkat kerja kerasku, *Hahhh",
+        background: "url('./assets/images/ending-dialogs/dialog1.webp')",
     },
     {
-        text: "Aku sudah berusaha, tapi masih ada banyak pekerjaan yang harus kulakukan. Aku akan terus menanam untuk masa depan yang lebih baik!",
-        background: "url('assets/images/ending-dialogs/dialog2.webp')",
+        text: "Aku sudah berusaha, tapi masih ada banyak pekerjaan yang harus kulakukan di kota. Aku akan kembali lagi nanti, kakek!",
+        background: "url('./assets/images/ending-dialogs/dialog2.webp')",
     },
 ];
 
@@ -19,7 +19,7 @@ this.backgroundMusic = new Audio(
 );
 
 
-this.backgroundMusic.addEventListener("canplaythrough", () => {
+window.addEventListener("click", (e) => {
     console.log("Audio file is ready to play");
     this.backgroundMusic.loop = true; // Atur agar musik berulang
     this.backgroundMusic.volume = 0.5; // Atur volume sesuai kebutuhan
@@ -27,6 +27,7 @@ this.backgroundMusic.addEventListener("canplaythrough", () => {
         console.error("Error playing background music:", error);
     });
 });
+
 this.backgroundMusic.addEventListener("error", (e) => {
     console.error("Error loading audio file:", e);
 });

@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'PressStart2P';
-    src: url('../fonts/PressStart2P-Regular.ttf') format('truetype');
+    src: url('../assets/fonts/PressStart2P-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -29,7 +29,7 @@ body {
     margin-bottom: 60px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Efek bayangan pada judul */
     cursor: default;
-    background: url('../images/backgrounds/modal-background.jpg') repeat;
+    background: url('../assets/images/backgrounds/modal-background.jpg') repeat;
     display: flex;
     justify-content: center;
     align-items: center;

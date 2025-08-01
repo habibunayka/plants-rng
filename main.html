@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Permainan RNG Tanaman</title>
+    <link rel="stylesheet" href="assets/css/main-style.css">
+</head>
+<body style="background: url('assets/images/backgrounds/background-5.webp') no-repeat center center fixed; background-size: cover;">
+    <div id="pollutionOverlay" class="pollution-overlay"></div>
+    <div class="game-container">
+        <header>
+            <div class="stats-container">
+                <div class="stats">
+                    <div id="money">    
+                        <img src="assets/images/icons/money.png" alt="Ikon Koin">
+                        <span>0</span>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div id="pollution">Polusi:  <span>0</span></div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button id="shopBtn" class="custom-button">Toko</button>
+                <button id="minigameBtn" class="custom-button">Minigame</button>
+                <button id="upgradeBtn" class="custom-button">Tingkatkan</button>
+                <button id="inventoryBtn" class="custom-button" style="background-color: orange;">Inventori</button>
+                <button id="missionBtn" class="custom-button">Tugas</button>
+                <button id="skinBtn" class="custom-button">Skin</button>
+            </div>
+        </header>
+
+        <div class="garden-container">
+            <div id="plantPots">
+                <!-- Pot akan dibuat melalui JavaScript -->
+            </div>
+        </div>
+
+        <div id="inventoryModal" class="modal">
+            <div class="modal-content">
+                <h2 class="yellow-text">Inventori</h2>
+                <div id="inventoryItems"></div>
+                <button class="close-modal" onclick="document.getElementById('inventoryModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <div id="plantInfoModal" class="modal">
+            <div class="modal-content">
+                <h2 style="color: #4CAF50;">Informasi Tanaman</h2>
+                <div id="plantInfo" style="text-align: center;">
+                    <img id="plantImage" src="" alt="Gambar Tanaman" style="width: 100px; height: auto; margin-bottom: 10px;">
+                    <div id="plantDescription" style="font-size: 1.2em; color: #fff;"></div>
+                    <div style="font-size: 1em; color: #FFD700;">Waktu Tumbuh: <span id="plantGrowthTime"></span> detik</div>
+                    <div style="font-size: 1em; color: #FFD700;">Pengurangan Polusi: <span id="plantPollutionReduction"></span></div>
+                    <div style="font-size: 1em; color: #FFD700;">Harga Jual: <span id="plantSellPrice"></span></div>
+                    <div style="font-size: 1em; color: #FFD700;">Panen dalam: <span id="updateInterval"></span> detik</div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('plantInfoModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <div id="shopModal" class="modal" onload="setActiveTab('shop-items')">
+            <div class="modal-content shop-content">
+                <h2 class="green-text">Toko</h2>
+                <div class="shop-tabs">
+                    <button class="tab-button active" data-tab="shop-items">Toko Tanaman</button>
+                    <button class="tab-button" data-tab="gatcha-cheap">Gatcha Murah</button>
+                    <button class="tab-button" data-tab="gatcha-normal">Gatcha Normal</button>
+                    <button class="tab-button" data-tab="gatcha-expensive">Gatcha Mahal</button>
+                </div>
+                <div class="shop-tab-content">
+                    <div id="gatcha-cheap" class="tab-content">
+                        <h3>Gatcha Murah</h3>
+                        <div id="gatchaCheapPlants" class="gatcha-plants-container">
+                            <!-- Tanaman akan dimasukkan melalui JavaScript -->
+                        </div>
+                        <button class="gatcha-btn" data-type="cheap" data-count="1">Gatcha 1x - 100 Koin</button>
+                        <button class="gatcha-btn" data-type="cheap" data-count="3">Gatcha 3x - 250 Koin</button>
+                    </div>
+                    <div id="gatcha-normal" class="tab-content">
+                        <h3>Gatcha Normal</h3>
+                        <div id="gatchaNormalPlants" class="gatcha-plants-container">
+                            <!-- Tanaman akan dimasukkan melalui JavaScript -->
+                        </div>
+                        <button class="gatcha-btn" data-type="normal" data-count="1">Gatcha 1x - 250 Koin</button>
+                        <button class="gatcha-btn" data-type="normal" data-count="3">Gatcha 3x - 650 Koin</button>
+                    </div>
+                    <div id="gatcha-expensive" class="tab-content">
+                        <h3>Gatcha Mahal</h3>
+                        <div id="gatchaExpensivePlants" class="gatcha-plants-container">
+                            <!-- Tanaman akan dimasukkan melalui JavaScript -->
+                        </div>
+                        <button class="gatcha-btn" data-type="expensive" data-count="1">Gatcha 1x - 1000 Koin</button>
+                        <button class="gatcha-btn" data-type="expensive" data-count="3">Gatcha 3x - 2500 Koin</button>
+                    </div>
+                    <div id="shop-items" class="tab-content active">
+                        <h3>Beli Tanaman</h3>
+                        <div id="shopItemsContainer" class="shop-items-container">
+                            <!-- Item akan dibuat melalui JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('shopModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <div id="upgradeModal" class="modal">
+            <div class="modal-content upgrade-modal">
+                <h2 class="purple-text">Tingkatkan</h2>
+                <div class="upgrade-card">
+                    <div class="upgrade-details">
+                        <h3>Tingkatkan Pot</h3>
+                        <p>Jumlah Pot: <span id="potCount">1</span> / 20</p>
+                        <p>Biaya: <span id="potUpgradeCost">500</span> Koin</p>
+                    </div>
+                    <div class="upgrade-action">
+                        <button id="upgradePotBtn">Tingkatkan</button>
+                    </div>
+                </div>
+                <div class="upgrade-card">
+                    <div class="upgrade-details">
+                        <h3>Pengganda Koin</h3>
+                        <p>Pengganda: <span id="moneyMultiplier">1x</span> / 5x</p>
+                        <p>Biaya: <span id="moneyMultiplierCost">1000</span> Koin</p>
+                    </div>
+                    <div class="upgrade-action">
+                        <button id="upgradeMoneyMultiplierBtn">Tingkatkan</button>
+                    </div>
+                </div>
+                <div class="upgrade-card">
+                    <div class="upgrade-details">
+                        <h3>Pengganda Pengurangan Polusi</h3>
+                        <p>Pengganda: <span id="pollutionMultiplier">1x</span> / 5x</p>
+                        <p>Biaya: <span id="pollutionMultiplierCost">1500</span> Koin</p>
+                    </div>
+                    <div class="upgrade-action">
+                        <button id="upgradePollutionMultiplierBtn">Tingkatkan</button>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('upgradeModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Pemilihan Permainan Mini -->
+        <div id="minigameSelectionModal" class="modal">
+            <div class="modal-content">
+                <h2 class="blue-text">Pilih Permainan</h2>
+                <div class="minigame-cards">
+                    <div class="minigame-card" data-game="saveRiver">
+                        <img src="assets/images/backgrounds/river-background.webp" style="width: 100%; height: auto;" alt="Selamatkan Sungai">
+                        <h3>Selamatkan Sungai!</h3>
+                        <p>Capai 500 poin untuk menang!</p>
+                    </div>
+                    <div class="minigame-card" data-game="sortingGarbage">
+                        <img src="assets/images/backgrounds/sorting-background.png" style="width: 100%; height: auto;" alt="Sortir Sampah">
+                        <h3>Sortir Sampah!</h3>
+                        <p>Capai 300 poin untuk menang!</p>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="game.closeMinigameSelectionModal()">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Permainan Mini Selamatkan Sungai -->
+        <div id="saveRiverModal" class="modal">
+            <div class="modal-content">
+                <h2>Selamatkan Sungai!</h2>
+                <div id="saveRiverGame">
+                    <div id="gameBackground">
+                        <!-- Sampah akan muncul di sini -->
+                    </div>
+                    <div id="gameInfo">
+                        <span>Waktu: <span id="gameTimer">30</span>s</span>
+                        <span>Skor: <span id="gameScore">0</span></span>
+                    </div>
+                    <div id="gameInfo">
+                        <span></span>
+                        
+                    </div>
+                </div>
+                <button class="close-modal" onclick="game.closeSaveRiverModal()">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Notifikasi Gatcha -->
+        <div id="gatchaNotificationModal" class="modal">
+            <div class="modal-content got-gatcha-modal">
+                <h2>Tanaman Diperoleh!</h2>
+                <div id="gatchaPlantsContainer" class="gatcha-plants-container got-gatcha-container">
+                    <!-- Tanaman akan dimasukkan melalui JavaScript -->
+                </div>
+                <button class="close-modal" onclick="document.getElementById('gatchaNotificationModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Tugas -->
+        <div id="missionModal" class="modal">
+            <div class="modal-content mission-modal">
+                <h2 class="red-text">Tugas!</h2>
+                <div id="missionList" class="mission-list">
+                    <div class="mission">
+                        <h3>Bersihkan Polusi</h3>
+                        <p>Kurangi polusi hingga 0.</p>
+                        <p id="zeroPollutionProgressText">Kemajuan: <span id="pollutionProgress">0</span>/0</p>
+                        <p class="yellow-text" id="zeroPollutionRewardText">Hadiah: ???</p>
+                        <button id="claimRewardBtn" class="disabled" onclick="game.claimReward()">Ambil Hadiah</button>
+                    </div>
+                    <div class="mission">
+                        <h3>Selamatkan Sungai</h3>
+                        <p>Dapatkan 700 poin dalam permainan Selamatkan Sungai.</p>
+                        <p id="saveRiverProgressText">Kemajuan: <span id="saveRiverProgress">0</span>/700</p>
+                        <p class="yellow-text" id="saveRiverRewardText">Hadiah: Skin Pot Biru</p>
+                        <button id="claimSaveRiverBtn" class="disabled" onclick="game.claimSaveRiverReward()">Ambil Hadiah</button>
+                    </div>
+                    <div class="mission">
+                        <h3>Sortir Sampah</h3>
+                        <p>Dapatkan 400 poin dalam permainan Sortir Sampah.</p>
+                        <p id="sortingGarbageProgressText">Kemajuan: <span id="sortingGarbageProgress">0</span>/400</p>
+                        <p class="yellow-text" id="sortingGarbageRewardText">Hadiah: Skin Pot Merah</p>
+                        <button id="claimSortingGarbageBtn" class="disabled" onclick="game.claimSortingGarbageReward()">Ambil Hadiah</button>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('missionModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal Skin Pot -->
+        <div id="skinModal" class="modal">
+            <div class="modal-content">
+                <h2 class="grey-text">Pilih Skin Pot</h2>
+                <div id="skinOptions" class="inventory-section">
+                    <div class="inventory-item">
+                        <img src="assets/images/pot-skins/default-pot.png" alt="Pot Default">
+                        <span>Pot Biasa</span>
+                        <button class="skin-btn equipped" data-skin="default" disabled>Dipakai</button>
+                    </div>
+                    <div class="inventory-item locked">
+                        <img src="assets/images/pot-skins/blue-pot.png" alt="Pot Biru">
+                        <span>Pot Biru (Terkunci)</span>
+                        <button class="skin-btn" data-skin="blue" disabled>Pasang</button>
+                    </div>
+                    <div class="inventory-item locked">
+                        <img src="assets/images/pot-skins/red-pot.png" alt="Pot Merah">
+                        <span>Pot Merah (Terkunci)</span>
+                        <button class="skin-btn" data-skin="red" disabled>Pasang</button>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('skinModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Modal untuk Permainan Mini Sortir Sampah -->
+        <div id="sortingGarbageModal" class="modal">
+            <div class="modal-content">
+                <h2>Sortir Sampah!</h2>
+                <div id="sortingGarbageGame">
+                    <div id="garbageGameBackground">
+                        <div id="garbageContainer"></div>
+                        <div id="binContainer">
+                            <div class="bin" id="anorganicBin">Anorganik<br>←</div>
+                            <div class="bin" id="organicBin">Organik<br>↓</div>
+                            <div class="bin" id="hazardousBin">Berbahaya<br>→</div>
+                        </div>
+                    </div>
+                    <div id="gameInfo">
+                        <span>Waktu: <span id="sortingGameTimer">30</span>s</span>
+                        <span>Skor: <span id="sortingGameScore">0</span></span>
+                    </div>
+                    <div id="gameInfo" style="margin-top: 15px;">
+                        <span>Tips: Gunakan arrow keys untuk memilah sampah ke kategori yang sesuai.</span>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="game.closeSortingGarbageModal()">Tutup</button>
+            </div>
+        </div>
+
+        <div id="tutorialModal" class="modal">
+            <div class="modal-content tutorial-content">
+                <h2>Tutorial</h2>
+                <div class="tutorial-slide" id="slide1">
+                    <img src="assets/images/tutorials/slide-1.png" alt="Slide 1" class="tutorial-image">
+                    <p class="tutorial-text">Selamat datang di <span class="green-text">GoPlant!</span> Di sini Anda akan belajar cara bermain.</p>
+                </div>
+                <div class="tutorial-slide" id="slide2" style="display: none;">
+                    <img src="assets/images/tutorials/slide-2.png" alt="Slide 2" class="tutorial-image">
+                    <p class="tutorial-text">Anda akan diberikan <span class="yellow-text">100 Koin</span> di awal permainan, gunakan Koin Anda untuk membeli tanaman di bagian <span class="green-text">Toko</span>.</p>
+                </div>
+                <div class="tutorial-slide" id="slide3" style="display: none;">
+                    <img src="assets/images/tutorials/slide-3.png" alt="Slide 3" class="tutorial-image">
+                    <p class="tutorial-text">Anda juga dapat mengatcha tanaman dengan mengklik tombol <span class="green-text">Gatcha</span> di bagian <span class="green-text">Toko</span>.</p>
+                </div>
+                <div class="tutorial-slide" id="slide4" style="display: none;">
+                    <img src="assets/images/tutorials/slide-4.png" alt="Slide 4" class="tutorial-image">
+                    <p class="tutorial-text">Tanam tanaman yang Anda beli pada pot yang ada di bagian kebun.</p>
+                </div>
+                <div class="tutorial-slide" id="slide5" style="display: none;">
+                    <img src="assets/images/tutorials/slide-5.png" alt="Slide 5" class="tutorial-image">
+                    <p class="tutorial-text">Polusi akan terus bertambah seiring waktu, jadi Anda harus menanam tanaman untuk mengurangi polusi.</p>
+                </div>
+                <div class="tutorial-slide" id="slide6" style="display: none;">
+                    <img src="assets/images/tutorials/slide-6.png" alt="Slide 6" class="tutorial-image">
+                    <p class="tutorial-text">Kerjakan tugas yang ada di bagian <span class="red-text">Tugas</span> untuk mendapatkan hadiah.</p>
+                </div>
+                <div class="tutorial-slide" id="slide7" style="display: none;">
+                    <img src="assets/images/tutorials/slide-7.png" alt="Slide 7" class="tutorial-image">
+                    <p class="tutorial-text">Anda dapat menambah pot dan mengupgrade multiplier di bagian <span class="purple-text">Tingkatkan</span>.</p>
+                </div>
+                <div class="tutorial-slide" id="slide8" style="display: none;">
+                    <img src="assets/images/tutorials/slide-8.png" alt="Slide 8" class="tutorial-image">
+                    <p class="tutorial-text">Selagi menunggu tanaman tumbuh, Anda dapat bermain <span class="cyan-text">Minigame</span> yang tersedia.</p>
+                </div>
+                <div class="tutorial-slide" id="slide9" style="display: none;">
+                    <img src="assets/images/tutorials/slide-9.png" alt="Slide 9" class="tutorial-image">
+                    <p class="tutorial-text"><span class="blue-text">Gunakan item</span> yang didapatkan dari <span class="cyan-text">Minigame</span> untuk membantu Anda dalam permainan.</p>
+                </div>
+                <div class="tutorial-slide" id="slide10" style="display: none;">
+                    <img src="assets/images/tutorials/slide-10.png" alt="Slide 10" class="tutorial-image">
+                    <p class="tutorial-text">Lengkapi koleksi <span class="grey-text">Skin Pot</span> untuk membuat pot Anda terlihat lebih keren!</p>
+                </div>
+                <!-- Tambahkan slide lain sesuai kebutuhan -->
+                <button id="nextSlideBtn" class="tutorial-button">Berikutnya</button>
+            </div>
+        </div>
+
+        <!-- Modal Informasi Item -->
+        <div id="itemInfoModal" class="modal">
+            <div class="modal-content item-info-modal">
+                <div class="modal-body">
+                    <img id="itemImage" src="" alt="Gambar Item" class="item-image">
+                    <h2 id="itemTitle" class="item-title"></h2>
+                    <div id="itemRarity" class="item-rarity"></div>
+                    <div id="itemDescription" class="item-description"></div>
+                </div>
+                <button class="close-modal" onclick="document.getElementById('itemInfoModal').style.display='none'">Tutup</button>
+            </div>
+        </div>
+    </div>
+    <div id="notification" class="notification"></div>
+    <script src="assets/js/main-script.js"></script>
+</body>
+</html>
